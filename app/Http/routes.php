@@ -48,4 +48,26 @@ Route::group(['prefix' => 'task'], function () {
         $task->delete();
         return redirect()->route('task.index');
     })->name('task.destroy');
+
+    Route::get('/{task}/edit', function (Task $task){
+        return view('task.edit', [
+            'task' => $task,
+        ]);
+    })->name('task.edit');
+
+    Route::patch('/{task}', function (Task $task, Request $request){
+        $validator = Validator::make($request->all(),[
+            'name' => 'required|max:5'
+        ]);
+        if ($validator->fails()){
+            return redirect()
+                ->route('task.edit', $task->id)
+                ->withInput()
+                ->withErrors($validator);
+        };
+
+        $task->name = request('name');
+        $task->save();
+        return redirect()->route('task.index');
+    })->name('task.update');
 });

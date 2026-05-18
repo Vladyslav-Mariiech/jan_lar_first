@@ -17,7 +17,7 @@
                 <thead>
                     <th>ID</th>
                     <th>Task</th>
-                    <th></th>
+                    <th>Action</th>
                 </thead>
                 <!-- Тело таблицы -->
                 <tbody>
@@ -30,12 +30,15 @@
                         <td class="table-text">
                             <div>{{ $task->name }}</div>
                         </td>
-                        <td>
+                        <td style="display: flex">
                             <form action="{{ route('task.destroy', $task->id) }}" method="post">
                                 {{ csrf_field() }}
                                 {{ method_field('DELETE') }}
                                 <button class="btn btn-danger"><i class="fa fa-trash"></i></button>
                             </form>
+                            <a href="{{ route('task.edit', $task->id) }}">
+                                <button class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                            </a>
                         </td>
                     </tr>
                 @endforeach
